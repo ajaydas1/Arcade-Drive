@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/HillClimbLevel1.unity
-    guid: 145298525c801a44e86f8be24615cc01
+    path: Assets/Scenes/mainmenu.unity
+    guid: 7d0dbe793937d8b42b80021c2f00b579
+  - enabled: 1
+    path: Assets/Scenes/Maintains.unity
+    guid: 6d250cd9cb47cb9419e7a97e8965dac6
+  - enabled: 1
+    path: Assets/Scenes/GridGlow.unity
+    guid: bc762e1a0c3325240a46e8a550adac2d
   m_configObjects: {}

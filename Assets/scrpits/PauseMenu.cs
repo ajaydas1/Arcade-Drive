@@ -5,7 +5,7 @@ public class PauseMenu : MonoBehaviour
 {
 	public static bool isPaused = false;
 	public GameObject MenuUI;
-	public GameObject Controls;
+	//public GameObject Controls;
 	void Start(){
 		Resume();
 	}
@@ -26,14 +26,14 @@ public class PauseMenu : MonoBehaviour
 		MenuUI.SetActive(false);
 		Time.timeScale = 1f;
 		isPaused = false;
-		Controls.SetActive(true);
+		//Controls.SetActive(true);
 	}
 
 	public void Pause(){
 		MenuUI.SetActive(true);
 		Time.timeScale = 0f;
 		isPaused=true;
-		Controls.SetActive(false);
+		//Controls.SetActive(false);
 	}
 
 	public void Quit(){

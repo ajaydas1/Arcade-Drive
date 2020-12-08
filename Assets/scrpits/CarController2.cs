@@ -18,20 +18,20 @@ public struct Wheel
 }
 
 
+
 public class CarController2 : MonoBehaviour
 {
+	public InputManager inputs;
 	[SerializeField]private float Acceleration = 100;
 	[SerializeField]private float Steerangle = 35;
 	[SerializeField]private float BrakeForce = 100;
-	[SerializeField]private float inputX, inputY;
 	[SerializeField]private List<Wheel> wheels;
 	private Rigidbody _rb;
 	[SerializeField]private Vector3 CenterOfMass;
-	public bool brakes;
+
 	//[SerializeField]private float RPM;
 	[SerializeField]private float maxSpeed = 5f;
 	
-
 
     // Start is called before the first frame update
     void Start()
@@ -44,8 +44,7 @@ public class CarController2 : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Inputs();
-        Move();
+		Move();
         animateWheels();
         Brake();
     }
@@ -55,11 +54,11 @@ public class CarController2 : MonoBehaviour
     	foreach (var wheel in wheels)
     	{
     		
-			wheel.wheelCollider.motorTorque = inputY * Acceleration *Time.deltaTime * 500;
+			wheel.wheelCollider.motorTorque = inputs.inputY * Acceleration *Time.deltaTime * 500;
 
     		if(wheel.axel == Axel.front)
     		{
-    			wheel.wheelCollider.steerAngle = inputX * Steerangle;
+    			wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, Steerangle * inputs.inputX, 0.1f);
     		}
     	}
 			if(_rb.velocity.magnitude > maxSpeed)
@@ -67,54 +66,6 @@ public class CarController2 : MonoBehaviour
 				_rb.velocity = Vector3.ClampMagnitude(_rb.velocity, maxSpeed);
 			}
     }
-
-    void Inputs()
-    {
-    	inputY = Input.GetAxis("Vertical");
-    	inputX = Input.GetAxis("Horizontal");
-    	brakes = Input.GetKey(KeyCode.Space);
-
-    }
-	public void TouchMoveForward()
-	{
-		inputY = 1;
-	}
-
-	public void TouchMoveBackward()
-	{
-		inputY = -1;
-	}
-
-	public void TouchSteerRight()
-	{
-		inputX = 1;
-	}
-	public void TouchSteerLeft()
-	{
-		inputX = -1;
-	}
-	public void TouchMoveForwardDown()
-	{
-		inputY = 0;
-	}
-
-	public void TouchMoveBackwardDown()
-	{
-		inputY = 0;
-	}
-
-	public void TouchSteerRightDown()
-	{
-		inputX = 0;
-	}
-	public void TouchSteerLeftDown()
-	{
-		inputX = 0;
-	}
-
-
-
-
     void animateWheels()
     {
     	foreach (var wheel in wheels)
@@ -132,15 +83,18 @@ public class CarController2 : MonoBehaviour
     	
     		foreach(var wheel in wheels)
     		{
-    			if(brakes)
+    			if(inputs.brakes)
     			{
     				wheel.wheelCollider.brakeTorque = BrakeForce * Acceleration;
+					wheel.wheelCollider.motorTorque = 0;
     			}
     			else
     			{
     				wheel.wheelCollider.brakeTorque = 0;
+					
     			}
     		}
     	
     }
+	
 }
